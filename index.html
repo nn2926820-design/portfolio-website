@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naveen S - Frontend Developer</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; color: #1e293b; background: #f8fafc; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        header { background: white; padding: 20px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 12px; }
+        .logo img { width: 45px; height: 45px; object-fit: contain; }
+        .logo-text { 
+            font-size: 1.8rem; 
+            font-weight: 800; 
+            background: linear-gradient(135deg, #667eea, #764ba2); 
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+        .nav-links a { margin-left: 30px; text-decoration: none; color: #64748b; font-weight: 600; }
+        .nav-links a:hover { color: #667eea; }
+        .hero { background: url('images/banner.jpg') center/cover; height: 600px; display: flex; align-items: center; text-align: center; color: white; position: relative; }
+        .hero::before { content: ''; position: absolute; inset: 0; background: rgba(102, 126, 234, 0.85); }
+        .hero-content { position: relative; z-index: 1; width: 100%; }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 15px; }
+        .hero p { font-size: 1.3rem; margin-bottom: 30px; }
+        .btn { display: inline-block; padding: 14px 35px; background: white; color: #667eea; border-radius: 50px; text-decoration: none; font-weight: 700; }
+        .btn:hover { transform: translateY(-3px); }
+        .about { padding: 80px 0; background: white; text-align: center; }
+        .profile-pic { width: 200px; height: 200px; border-radius: 50%; border: 6px solid #667eea; object-fit: cover; margin-bottom: 30px; }
+        .about h2 { font-size: 2.5rem; color: #667eea; margin-bottom: 15px; }
+        .about p { font-size: 1.1rem; color: #64748b; max-width: 600px; margin: 0 auto 30px; }
+        .skills { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        .skill-tag { background: #f1f5f9; padding: 10px 20px; border-radius: 25px; font-weight: 600; color: #475569; border: 2px solid #e2e8f0; }
+        .cta { padding: 60px 0; background: linear-gradient(135deg, #667eea, #764ba2); text-align: center; color: white; }
+        .cta h2 { font-size: 2.5rem; margin-bottom: 20px; }
+        footer { background: #1e293b; color: #94a3b8; text-align: center; padding: 30px 0; }
+        @media (max-width: 768px) { .hero h1 { font-size: 2.5rem; } .nav-links { display: none; } .profile-pic { width: 150px; height: 150px; } }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <img src="images/logo.png" alt="Naveen Logo">
+                    <div class="logo-text">NAVEEN S</div>
+                </div>
+                <div class="nav-links">
+                    <a href="#about">About</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Hi, I'm Naveen S</h1>
+            <p>Frontend Developer | Building Modern Web Experiences</p>
+            <a href="contact.html" class="btn">Hire Me 🚀</a>
+        </div>
+    </section>
+    <section class="about" id="about">
+        <div class="container">
+            <img src="images/profile.jpeg" alt="Naveen S" class="profile-pic">
+            <h2>About Me</h2>
+            <p>I'm a passionate Frontend Developer skilled in HTML, CSS, and JavaScript. I love creating responsive, user-friendly websites.</p>
+            <div class="skills">
+                <span class="skill-tag">HTML5</span>
+                <span class="skill-tag">CSS3</span>
+                <span class="skill-tag">JavaScript</span>
+                <span class="skill-tag">Responsive Design</span>
+            </div>
+        </div>
+    </section>
+    <section class="cta">
+        <div class="container">
+            <h2>Let's Work Together</h2>
+            <p>Have a project in mind? Let's discuss</p>
+            <a href="contact.html" class="btn">Contact Me</a>
+        </div>
+    </section>
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Naveen S. Built with HTML & CSS.</p>
+        </div>
+    </footer>
+</body>
+</html>
