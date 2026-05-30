@@ -3,15 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Naveen S - Frontend Developer</title>
+    <title>Naveen S - Frontend Developer | Portfolio</title>
+    <meta name="description" content="Frontend Developer specializing in HTML, CSS, JavaScript. Building modern responsive websites.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; color: #1e293b; background: #f8fafc; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #1e293b; background: #f8fafc; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Header */
         header { background: white; padding: 20px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
         nav { display: flex; justify-content: space-between; align-items: center; }
         .logo { display: flex; align-items: center; gap: 12px; }
-        .logo img { width: 45px; height: 45px; object-fit: contain; }
+        .logo img { width: 45px; height: 45px; object-fit: contain; border-radius: 8px; }
         .logo-text { 
             font-size: 1.8rem; 
             font-weight: 800; 
@@ -21,28 +25,113 @@
             -webkit-text-fill-color: transparent;
             color: transparent;
         }
-        .nav-links a { margin-left: 30px; text-decoration: none; color: #64748b; font-weight: 600; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { text-decoration: none; color: #64748b; font-weight: 600; transition: color 0.3s; }
         .nav-links a:hover { color: #667eea; }
-        .hero { background: url('images/banner.jpg') center/cover; height: 600px; display: flex; align-items: center; text-align: center; color: white; position: relative; }
-        .hero::before { content: ''; position: absolute; inset: 0; background: rgba(102, 126, 234, 0.85); }
-        .hero-content { position: relative; z-index: 1; width: 100%; }
-        .hero h1 { font-size: 3.5rem; margin-bottom: 15px; }
-        .hero p { font-size: 1.3rem; margin-bottom: 30px; }
-        .btn { display: inline-block; padding: 14px 35px; background: white; color: #667eea; border-radius: 50px; text-decoration: none; font-weight: 700; }
-        .btn:hover { transform: translateY(-3px); }
-        .about { padding: 80px 0; background: white; text-align: center; }
-        .profile-pic { width: 200px; height: 200px; border-radius: 50%; border: 6px solid #667eea; object-fit: cover; margin-bottom: 30px; }
-        .about h2 { font-size: 2.5rem; color: #667eea; margin-bottom: 15px; }
-        .about p { font-size: 1.1rem; color: #64748b; max-width: 600px; margin: 0 auto 30px; }
-        .skills { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
-        .skill-tag { background: #f1f5f9; padding: 10px 20px; border-radius: 25px; font-weight: 600; color: #475569; border: 2px solid #e2e8f0; }
-        .cta { padding: 60px 0; background: linear-gradient(135deg, #667eea, #764ba2); text-align: center; color: white; }
-        .cta h2 { font-size: 2.5rem; margin-bottom: 20px; }
-        footer { background: #1e293b; color: #94a3b8; text-align: center; padding: 30px 0; }
-        @media (max-width: 768px) { .hero h1 { font-size: 2.5rem; } .nav-links { display: none; } .profile-pic { width: 150px; height: 150px; } }
+        
+        /* Hero Section */
+        .hero { 
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9)), url('images/banner.jpg') center/cover; 
+            height: 650px; 
+            display: flex; 
+            align-items: center; 
+            text-align: center; 
+            color: white; 
+        }
+        .hero-content { width: 100%; }
+        .hero h1 { font-size: 3.8rem; margin-bottom: 15px; font-weight: 800; }
+        .hero p { font-size: 1.4rem; margin-bottom: 30px; opacity: 0.95; }
+        .hero-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .btn { 
+            display: inline-block; 
+            padding: 14px 35px; 
+            border-radius: 50px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            transition: all 0.3s;
+        }
+        .btn-primary { background: white; color: #667eea; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .btn-secondary { background: transparent; color: white; border: 2px solid white; }
+        .btn-secondary:hover { background: white; color: #667eea; }
+        
+        /* About Section */
+        .about { padding: 100px 0; background: white; }
+        .section-title { text-align: center; font-size: 2.8rem; color: #1e293b; margin-bottom: 15px; font-weight: 800; }
+        .section-subtitle { text-align: center; color: #64748b; margin-bottom: 60px; font-size: 1.1rem; }
+        .about-content { display: grid; grid-template-columns: 1fr 2fr; gap: 60px; align-items: center; }
+        .profile-pic { width: 300px; height: 300px; border-radius: 20px; border: 6px solid #667eea; object-fit: cover; box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3); }
+        .about-text h3 { font-size: 2rem; color: #667eea; margin-bottom: 20px; }
+        .about-text p { font-size: 1.1rem; color: #475569; margin-bottom: 20px; line-height: 1.8; }
+        .skills { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 25px; }
+        .skill-tag { 
+            background: linear-gradient(135deg, #667eea, #764ba2); 
+            color: white; 
+            padding: 10px 22px; 
+            border-radius: 25px; 
+            font-weight: 600; 
+            font-size: 0.9rem;
+        }
+        
+        /* Projects Section */
+        .projects { padding: 100px 0; background: #f8fafc; }
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 50px; }
+        .project-card { 
+            background: white; 
+            border-radius: 16px; 
+            overflow: hidden; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+        .project-card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px rgba(102, 126, 234, 0.2); }
+        .project-img { width: 100%; height: 220px; object-fit: cover; background: linear-gradient(135deg, #667eea, #764ba2); }
+        .project-content { padding: 30px; }
+        .project-content h3 { font-size: 1.5rem; color: #1e293b; margin-bottom: 12px; }
+        .project-content p { color: #64748b; margin-bottom: 20px; line-height: 1.7; }
+        .project-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+        .project-tag { background: #f1f5f9; color: #475569; padding: 6px 14px; border-radius: 15px; font-size: 0.85rem; font-weight: 600; }
+        .project-links { display: flex; gap: 15px; }
+        .project-link { color: #667eea; text-decoration: none; font-weight: 600; font-size: 0.95rem; }
+        .project-link:hover { text-decoration: underline; }
+        
+        /* Experience Section */
+        .experience { padding: 100px 0; background: white; }
+        .timeline { max-width: 800px; margin: 50px auto 0; }
+        .timeline-item { 
+            background: #f8fafc; 
+            padding: 30px; 
+            border-radius: 12px; 
+            margin-bottom: 25px; 
+            border-left: 4px solid #667eea;
+        }
+        .timeline-item h3 { color: #667eea; font-size: 1.4rem; margin-bottom: 8px; }
+        .timeline-item .date { color: #94a3b8; font-size: 0.9rem; margin-bottom: 12px; font-weight: 600; }
+        .timeline-item p { color: #475569; line-height: 1.7; }
+        
+        /* CTA Section */
+        .cta { padding: 80px 0; background: linear-gradient(135deg, #667eea, #764ba2); text-align: center; color: white; }
+        .cta h2 { font-size: 2.8rem; margin-bottom: 20px; font-weight: 800; }
+        .cta p { font-size: 1.2rem; margin-bottom: 35px; opacity: 0.95; }
+        
+        /* Footer */
+        footer { background: #1e293b; color: #94a3b8; text-align: center; padding: 40px 0; }
+        .footer-links { display: flex; gap: 30px; justify-content: center; margin-bottom: 20px; }
+        .footer-links a { color: #94a3b8; text-decoration: none; font-weight: 600; }
+        .footer-links a:hover { color: white; }
+        
+        /* Responsive */
+        @media (max-width: 768px) { 
+            .hero h1 { font-size: 2.5rem; } 
+            .nav-links { display: none; } 
+            .about-content { grid-template-columns: 1fr; text-align: center; }
+            .profile-pic { width: 200px; height: 200px; margin: 0 auto; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .hero-buttons { flex-direction: column; align-items: center; }
+        }
     </style>
 </head>
 <body>
+    <!-- Header -->
     <header>
         <div class="container">
             <nav>
@@ -52,41 +141,157 @@
                 </div>
                 <div class="nav-links">
                     <a href="#about">About</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#experience">Experience</a>
                     <a href="contact.html">Contact</a>
                 </div>
             </nav>
         </div>
     </header>
+
+    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
             <h1>Hi, I'm Naveen S</h1>
             <p>Frontend Developer | Building Modern Web Experiences</p>
-            <a href="contact.html" class="btn">Hire Me 🚀</a>
-        </div>
-    </section>
-    <section class="about" id="about">
-        <div class="container">
-            <img src="images/profile.jpeg" alt="Naveen S" class="profile-pic">
-            <h2>About Me</h2>
-            <p>I'm a passionate Frontend Developer skilled in HTML, CSS, and JavaScript. I love creating responsive, user-friendly websites.</p>
-            <div class="skills">
-                <span class="skill-tag">HTML5</span>
-                <span class="skill-tag">CSS3</span>
-                <span class="skill-tag">JavaScript</span>
-                <span class="skill-tag">Responsive Design</span>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-primary">View My Work 🚀</a>
+                <a href="contact.html" class="btn btn-secondary">Hire Me</a>
             </div>
         </div>
     </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <p class="section-subtitle">Get to know me better</p>
+            <div class="about-content">
+                <img src="images/profile.jpeg" alt="Naveen S" class="profile-pic">
+                <div class="about-text">
+                    <h3>Frontend Developer</h3>
+                    <p>I'm a passionate Frontend Developer with expertise in creating responsive, user-friendly websites. I specialize in HTML5, CSS3, and JavaScript to build modern web applications that deliver exceptional user experiences.</p>
+                    <p>With a keen eye for design and strong technical skills, I transform ideas into pixel-perfect, performant websites. I'm always learning new technologies to stay ahead in the fast-evolving web development landscape.</p>
+                    <div class="skills">
+                        <span class="skill-tag">HTML5</span>
+                        <span class="skill-tag">CSS3</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">Responsive Design</span>
+                        <span class="skill-tag">Git & GitHub</span>
+                        <span class="skill-tag">UI/UX</span>
+                        <span class="skill-tag">Bootstrap</span>
+                        <span class="skill-tag">REST API</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <p class="section-subtitle">Some of my recent work</p>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-img"></div>
+                    <div class="project-content">
+                        <h3>Portfolio Website</h3>
+                        <p>Modern responsive portfolio website with contact form integration. Built with HTML, CSS, JavaScript and Flask backend for email functionality.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">HTML</span>
+                            <span class="project-tag">CSS</span>
+                            <span class="project-tag">JavaScript</span>
+                            <span class="project-tag">Flask</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link">Live Demo →</a>
+                            <a href="#" class="project-link">GitHub →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-img"></div>
+                    <div class="project-content">
+                        <h3>E-Commerce Landing Page</h3>
+                        <p>Fully responsive e-commerce landing page with product showcase, cart functionality, and smooth animations. Optimized for all devices.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">HTML5</span>
+                            <span class="project-tag">CSS3</span>
+                            <span class="project-tag">JavaScript</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link">Live Demo →</a>
+                            <a href="#" class="project-link">GitHub →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-img"></div>
+                    <div class="project-content">
+                        <h3>Weather App</h3>
+                        <p>Real-time weather application using OpenWeather API. Features location-based weather data, 5-day forecast, and beautiful UI design.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">JavaScript</span>
+                            <span class="project-tag">API</span>
+                            <span class="project-tag">CSS3</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link">Live Demo →</a>
+                            <a href="#" class="project-link">GitHub →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="experience" id="experience">
+        <div class="container">
+            <h2 class="section-title">Experience & Education</h2>
+            <p class="section-subtitle">My professional journey</p>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>Frontend Developer - Freelance</h3>
+                    <div class="date">2024 - Present</div>
+                    <p>Developing custom websites for clients. Specialized in creating responsive, SEO-friendly websites with modern design principles. Handled end-to-end project delivery from design to deployment.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Web Development Training</h3>
+                    <div class="date">2023 - 2024</div>
+                    <p>Completed intensive training in HTML, CSS, JavaScript, and modern web development practices. Built multiple projects including portfolio sites, e-commerce pages, and web applications.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Bachelor's Degree</h3>
+                    <div class="date">2020 - 2023</div>
+                    <p>Graduated with focus on Computer Science fundamentals. Developed strong problem-solving skills and foundation in programming concepts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
     <section class="cta">
         <div class="container">
             <h2>Let's Work Together</h2>
-            <p>Have a project in mind? Let's discuss</p>
-            <a href="contact.html" class="btn">Contact Me</a>
+            <p>Have a project in mind? Let's discuss how I can help bring your ideas to life</p>
+            <a href="contact.html" class="btn btn-primary">Contact Me Now</a>
         </div>
     </section>
+
+    <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2026 Naveen S. Built with HTML & CSS.</p>
+            <div class="footer-links">
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="contact.html">Contact</a>
+                <a href="tel:9342926928">Call: 9342926928</a>
+            </div>
+            <p>&copy; 2026 Naveen S. Built with HTML & CSS. All rights reserved.</p>
         </div>
     </footer>
 </body>
