@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html><head><title>Task 18 - React.js</title>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>body{background:#0f172a;color:white;font-family:Arial;padding:40px;text-align:center}</style>
+</head><body>
+<div id="root"></div>
+<script type="text/babel">
+const App = () => {
+  const [count, setCount] = React.useState(0);
+  return (
+    <div>
+      <h1 style={{color:'#38bdf8'}}>React.js Application</h1>
+      <h2>Count: {count}</h2>
+      <button onClick={() => setCount(count+1)} style={{background:'#38bdf8',padding:'12px 24px',border:'none',borderRadius:'6px',fontWeight:'bold',cursor:'pointer'}}>Increment</button>
+      <p style={{color:'#94a3b8',marginTop:'20px'}}>Task 18 by Naveen S</p>
+    </div>
+  );
+};
+ReactDOM.render(<App />, document.getElementById('root'));
+</script></body></html>

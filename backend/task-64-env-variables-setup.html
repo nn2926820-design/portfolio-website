@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html><head><title>Task 64 - Env Setup</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 64: Setup Environment Variables</h1>
+<div class="code">
+<pre><span class="comment">//.env file</span>
+NODE_ENV=development
+PORT=5000
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=secret123
+JWT_SECRET=myjwtsecretkey
+STRIPE_SECRET=sk_test_xxx
+
+<span class="comment">// config.js</span>
+require('dotenv').config();
+
+module.exports = {
+  port: process.env.PORT || 3000,
+  db: {
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    pass: process.env.DB_PASS
+  },
+  jwtSecret: process.env.JWT_SECRET
+};
+
+<span class="comment">// Use in app</span>
+const config = require('./config');
+app.listen(config.port);
+const token = jwt.sign(payload, config.jwtSecret);</pre>
+</div>
+<p style="color:#94a3b8">Task 64 by Naveen S</p>
+</body></html>

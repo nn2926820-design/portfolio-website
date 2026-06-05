@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html><head><title>Task 102 - GraphQL Subs</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#e535ab}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 102: GraphQL Subscriptions</h1>
+<div class="code">
+<pre><span class="comment">// Apollo Subscriptions</span>
+const { PubSub } = require('graphql-subscriptions');
+const pubsub = new PubSub();
+
+const typeDefs = gql`
+  type Subscription {
+    postAdded: Post
+  }
+  type Mutation {
+    addPost(title: String!): Post
+  }
+`;
+
+const resolvers = {
+  Subscription: {
+    postAdded: {
+      subscribe: () => pubsub.asyncIterator(['POST_ADDED'])
+    }
+  },
+  Mutation: {
+    addPost: async (_, { title }) => {
+      const post = await Post.create({ title });
+      pubsub.publish('POST_ADDED', { postAdded: post });
+      return post;
+    }
+  }
+};
+
+<span class="comment">// Setup WS</span>
+const { createServer } = require('http');
+const { SubscriptionServer } = require('subscriptions-transport-ws');
+const httpServer = createServer(app);
+SubscriptionServer.create({ schema, execute, subscribe }, { server: httpServer, path: '/graphql' });</pre>
+</div>
+<p style="color:#94a3b8">Task 102 by Naveen S</p>
+</body></html>

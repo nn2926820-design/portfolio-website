@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html><head><title>Task 92 - WS Scaling</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 92: WebSocket Scaling with Redis</h1>
+<div class="code">
+<pre><span class="comment">// Socket.io + Redis Adapter</span>
+const { Server } = require('socket.io');
+const { createAdapter } = require('@socket.io/redis-adapter');
+const { createClient } = require('redis');
+
+const io = new Server(3000);
+const pubClient = createClient({ host: 'localhost', port: 6379 });
+const subClient = pubClient.duplicate();
+
+io.adapter(createAdapter(pubClient, subClient));
+
+<span class="comment">// Works across multiple servers</span>
+io.on('connection', (socket) => {
+  socket.on('chat', (msg) => {
+    io.emit('chat', msg); // Broadcasts to all servers
+  });
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 92 by Naveen S</p>
+</body></html>

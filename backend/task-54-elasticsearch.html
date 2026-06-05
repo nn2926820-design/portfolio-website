@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html><head><title>Task 54 - Elasticsearch</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 54: Build Search API with Elasticsearch</h1>
+<div class="code">
+<pre><span class="comment">// Elasticsearch Client</span>
+const { Client } = require('@elastic/elasticsearch');
+const client = new Client({ node: 'http://localhost:9200' });
+
+<span class="comment">// Index data</span>
+app.post('/api/index-product', async (req, res) => {
+  await client.index({
+    index: 'products',
+    document: req.body
+  });
+  res.json({ indexed: true });
+});
+
+<span class="comment">// Search API</span>
+app.get('/api/search', async (req, res) => {
+  const { q } = req.query;
+  const result = await client.search({
+    index: 'products',
+    query: {
+      multi_match: {
+        query: q,
+        fields: ['name', 'description']
+      }
+    }
+  });
+  res.json(result.hits.hits);
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 54 by Naveen S</p>
+</body></html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html><head><title>Task 109 - Email Templates</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 109: Email Template System</h1>
+<div class="code">
+<pre><span class="comment">// Handlebars templates</span>
+const nodemailer = require('nodemailer');
+const hbs = require('nodemailer-express-handlebars');
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: { user: process.env.EMAIL, pass: process.env.EMAIL_PASS }
+});
+
+transporter.use('compile', hbs({
+  viewEngine: { extname: '.hbs', layoutsDir: 'views/email/', defaultLayout: false },
+  viewPath: 'views/email/',
+  extName: '.hbs'
+}));
+
+<span class="comment">// Send with template</span>
+app.post('/api/welcome', async (req, res) => {
+  await transporter.sendMail({
+    to: req.body.email,
+    subject: 'Welcome!',
+    template: 'welcome',
+    context: { name: req.body.name, link: 'https://myapp.com' }
+  });
+  res.json({ sent: true });
+});
+
+<span class="comment">// views/email/welcome.hbs</span>
+&lt;h1&gt;Hi {{name}}&lt;/h1&gt;
+&lt;p&gt;Welcome! &lt;a href="{{link}}"&gt;Get Started&lt;/a&gt;&lt;/p&gt;</pre>
+</div>
+<p style="color:#94a3b8">Task 109 by Naveen S</p>
+</body></html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html><head><title>Task 76 - Filter Sort</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 76: Implement Filtering & Sorting</h1>
+<div class="code">
+<pre><span class="comment">// Dynamic filtering</span>
+app.get('/api/products', async (req, res) => {
+  const { category, minPrice, maxPrice, sort, order } = req.query;
+  const where = {};
+
+  if (category) where.category = category;
+  if (minPrice) where.price = { [Op.gte]: minPrice };
+  if (maxPrice) where.price = {...where.price, [Op.lte]: maxPrice };
+
+  const products = await Product.findAll({
+    where,
+    order: [[sort || 'createdAt', order || 'DESC']],
+    limit: 20
+  });
+
+  res.json(products);
+});
+
+<span class="comment">// Search</span>
+app.get('/api/search', async (req, res) => {
+  const { q } = req.query;
+  const results = await Product.findAll({
+    where: { name: { [Op.like]: `%${q}%` } }
+  });
+  res.json(results);
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 76 by Naveen S</p>
+</body></html>

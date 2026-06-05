@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html><head><title>Task 73 - Indexing</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 73: Implement Database Indexing</h1>
+<div class="code">
+<pre><span class="comment">// MySQL Index</span>
+CREATE INDEX idx_email ON Users(email);
+CREATE INDEX idx_created_at ON Orders(createdAt);
+CREATE UNIQUE INDEX idx_username ON Users(username);
+
+<span class="comment">// MongoDB Index</span>
+db.users.createIndex({ email: 1 });
+db.orders.createIndex({ userId: 1, createdAt: -1 });
+db.products.createIndex({ name: "text", description: "text" });
+
+<span class="comment">// Sequelize Index</span>
+User.init({
+  email: {
+    type: DataTypes.STRING,
+    unique: true
+  }
+}, {
+  indexes: [{ fields: ['email'] }]
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 73 by Naveen S</p>
+</body></html>

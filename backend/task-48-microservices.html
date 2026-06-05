@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html><head><title>Task 48 - Microservices</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 48: Create Microservices Architecture</h1>
+<div class="code">
+<pre><span class="comment">// user-service - port 5001</span>
+app.get('/users/:id', async (req, res) => {
+  const user = await User.findById(req.params.id);
+  res.json(user);
+});
+
+<span class="comment">// order-service - port 5002</span>
+app.get('/orders/:id', async (req, res) => {
+  const order = await Order.findById(req.params.id);
+  res.json(order);
+});
+
+<span class="comment">// API Gateway - port 5000</span>
+const axios = require('axios');
+app.get('/api/user-orders/:userId', async (req, res) => {
+  const user = await axios.get(`http://localhost:5001/users/${req.params.userId}`);
+  const orders = await axios.get(`http://localhost:5002/orders?userId=${req.params.userId}`);
+  res.json({ user: user.data, orders: orders.data });
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 48 by Naveen S</p>
+</body></html>

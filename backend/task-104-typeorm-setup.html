@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html><head><title>Task 104 - TypeORM</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 104: Setup TypeORM</h1>
+<div class="code">
+<pre><span class="comment">// data-source.ts</span>
+import { DataSource } from "typeorm";
+export const AppDataSource = new DataSource({
+  type: "mysql",
+  host: "localhost",
+  port: 3306,
+  username: "root",
+  password: "secret",
+  database: "myapp",
+  entities: ["src/entity/*.ts"],
+  synchronize: true
+});
+
+<span class="comment">// entity/User.ts</span>
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+@Entity()
+export class User {
+  @PrimaryGeneratedColumn()
+  id: number;
+  @Column()
+  name: string;
+  @Column({ unique: true })
+  email: string;
+  @OneToMany(() => Post, post => post.user)
+  posts: Post[];
+}
+
+<span class="comment">// Usage</span>
+AppDataSource.initialize().then(() => {
+  const userRepo = AppDataSource.getRepository(User);
+  app.get('/users', async (req, res) => {
+    const users = await userRepo.find({ relations: ['posts'] });
+    res.json(users);
+  });
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 104 by Naveen S</p>
+</body></html>

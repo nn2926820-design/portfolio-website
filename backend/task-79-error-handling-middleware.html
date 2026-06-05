@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html><head><title>Task 79 - Error Handler</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 79: Create Error Handling Middleware</h1>
+<div class="code">
+<pre><span class="comment">// Custom Error Class</span>
+class AppError extends Error {
+  constructor(message, statusCode) {
+    super(message);
+    this.statusCode = statusCode;
+    this.isOperational = true;
+  }
+}
+
+<span class="comment">// Async wrapper</span>
+const catchAsync = fn => (req, res, next) => {
+  Promise.resolve(fn(req, res, next)).catch(next);
+};
+
+<span class="comment">// Global error handler</span>
+app.use((err, req, res, next) => {
+  err.statusCode = err.statusCode || 500;
+  res.status(err.statusCode).json({
+    status: 'error',
+    message: err.message,
+   ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+  });
+});
+
+<span class="comment">// Usage</span>
+app.get('/api/users/:id', catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+  if (!user) throw new AppError('User not found', 404);
+  res.json(user);
+}));</pre>
+</div>
+<p style="color:#94a3b8">Task 79 by Naveen S</p>
+</body></html>

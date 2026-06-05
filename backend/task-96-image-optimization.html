@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html><head><title>Task 96 - Image Opt</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 96: Image Optimization API</h1>
+<div class="code">
+<pre><span class="comment">// Sharp image processing</span>
+const sharp = require('sharp');
+const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage() });
+
+app.post('/api/upload-image', upload.single('image'), async (req, res) => {
+  const optimized = await sharp(req.file.buffer)
+  .resize(800, 600, { fit: 'inside' })
+  .webp({ quality: 80 })
+  .toBuffer();
+
+  await fs.promises.writeFile(`./uploads/${Date.now()}.webp`, optimized);
+  res.json({ success: true });
+});
+
+<span class="comment">// Dynamic resize</span>
+app.get('/api/image/:file', async (req, res) => {
+  const { w, h, q } = req.query;
+  const img = await sharp(`./uploads/${req.params.file}`)
+  .resize(parseInt(w), parseInt(h))
+  .jpeg({ quality: parseInt(q) || 80 })
+  .toBuffer();
+  res.type('image/jpeg').send(img);
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 96 by Naveen S</p>
+</body></html>

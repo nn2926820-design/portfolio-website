@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html><head><title>Task 55 - API Versioning</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 55: Implement API Versioning</h1>
+<div class="code">
+<pre><span class="comment">// URL Versioning</span>
+const v1Routes = require('./routes/v1');
+const v2Routes = require('./routes/v2');
+
+app.use('/api/v1', v1Routes);
+app.use('/api/v2', v2Routes);
+
+<span class="comment">// v1/users.js</span>
+router.get('/users', (req, res) => {
+  res.json({ version: 'v1', users: [] });
+});
+
+<span class="comment">// v2/users.js</span>
+router.get('/users', (req, res) => {
+  res.json({ version: 'v2', data: [], meta: { total: 0 } });
+});
+
+<span class="comment">// Header Versioning</span>
+app.use((req, res, next) => {
+  const version = req.headers['api-version'] || 'v1';
+  req.apiVersion = version;
+  next();
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 55 by Naveen S</p>
+</body></html>

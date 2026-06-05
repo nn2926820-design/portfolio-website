@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html><head><title>Task 86 - DB Replication</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 86: Setup Database Replication</h1>
+<div class="code">
+<pre><span class="comment">// MySQL Master-Slave my.cnf</span>
+<span class="comment">// Master config</span>
+[mysqld]
+server-id = 1
+log_bin = /var/log/mysql/mysql-bin.log
+binlog_do_db = myapp
+
+<span class="comment">// Slave config</span>
+[mysqld]
+server-id = 2
+relay-log = /var/log/mysql/mysql-relay-bin.log
+replicate-do-db = myapp
+
+<span class="comment">// Node.js read/write split</span>
+const mysql = require('mysql2');
+const master = mysql.createPool({ host: 'master.db' });
+const slave = mysql.createPool({ host: 'slave.db' });
+
+const db = {
+  write: (sql, params) => master.execute(sql, params),
+  read: (sql, params) => slave.execute(sql, params)
+};</pre>
+</div>
+<p style="color:#94a3b8">Task 86 by Naveen S</p>
+</body></html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html><head><title>Task 111 - Push Notifications</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 111: Push Notifications with FCM</h1>
+<div class="code">
+<pre><span class="comment">// Firebase Admin for FCM</span>
+const admin = require('firebase-admin');
+
+app.post('/api/send-notification', async (req, res) => {
+  const { token, title, body } = req.body;
+  const message = {
+    notification: { title, body },
+    token: token
+  };
+  await admin.messaging().send(message);
+  res.json({ sent: true });
+});
+
+<span class="comment">// Topic broadcast</span>
+app.post('/api/broadcast', async (req, res) => {
+  await admin.messaging().send({
+    notification: { title: req.body.title, body: req.body.body },
+    topic: 'all_users'
+  });
+  res.json({ broadcast: true });
+});
+
+<span class="comment">// Store FCM token</span>
+app.post('/api/register-token', auth, async (req, res) => {
+  await User.updateOne(
+    { _id: req.user.id },
+    { $addToSet: { fcmTokens: req.body.token } }
+  );
+  res.json({ saved: true });
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 111 by Naveen S</p>
+</body></html>

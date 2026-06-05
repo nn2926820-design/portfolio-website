@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html><head><title>Task 33 - Django</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 33: Create Django Backend System</h1>
+<div class="code">
+<pre><span class="comment"># views.py</span>
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+@api_view(['GET', 'POST'])
+def user_list(request):
+    if request.method == 'GET':
+        return Response({'users': []})
+    return Response({'message': 'User created'}, status=201)
+
+<span class="comment"># urls.py</span>
+from django.urls import path
+from .views import user_list
+urlpatterns = [path('api/users/', user_list)]</pre>
+</div>
+<p style="color:#94a3b8">Task 33 by Naveen S</p>
+</body></html>

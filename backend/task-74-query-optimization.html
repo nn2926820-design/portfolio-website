@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html><head><title>Task 74 - Query Opt</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 74: Optimize Database Queries</h1>
+<div class="code">
+<pre><span class="comment">// 1. Select only needed fields</span>
+const users = await User.findAll({
+  attributes: ['id', 'name', 'email']
+});
+
+<span class="comment">// 2. Use include with proper joins</span>
+const orders = await Order.findAll({
+  include: [{ model: User, attributes: ['name'] }]
+});
+
+<span class="comment">// 3. Avoid N+1 queries</span>
+const users = await User.findAll({
+  include: [Order] // Eager loading
+});
+
+<span class="comment">// 4. Use EXPLAIN</span>
+const result = await sequelize.query(
+  'EXPLAIN SELECT * FROM Users WHERE email =?',
+  { replacements: [email] }
+);</pre>
+</div>
+<p style="color:#94a3b8">Task 74 by Naveen S</p>
+</body></html>

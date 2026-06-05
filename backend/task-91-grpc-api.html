@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html><head><title>Task 91 - gRPC</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 91: Implement gRPC API</h1>
+<div class="code">
+<pre><span class="comment">// user.proto</span>
+syntax = "proto3";
+service UserService {
+  rpc GetUser (UserRequest) returns (UserReply) {}
+}
+message UserRequest { string id = 1; }
+message UserReply { string name = 1; string email = 2; }
+
+<span class="comment">// server.js</span>
+const grpc = require('@grpc/grpc-js');
+const protoLoader = require('@grpc/proto-loader');
+const def = protoLoader.loadSync('user.proto');
+const userProto = grpc.loadPackageDefinition(def).UserService;
+
+function getUser(call, callback) {
+  callback(null, { name: 'Naveen', email: 'test@mail.com' });
+}
+
+const server = new grpc.Server();
+server.addService(userProto.service, { getUser });
+server.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), () => {
+  server.start();
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 91 by Naveen S</p>
+</body></html>

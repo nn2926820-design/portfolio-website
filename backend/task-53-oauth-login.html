@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html><head><title>Task 53 - OAuth</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 53: Develop OAuth Social Login</h1>
+<div class="code">
+<pre><span class="comment">// Passport Google OAuth</span>
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+passport.use(new GoogleStrategy({
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: '/auth/google/callback'
+}, async (accessToken, refreshToken, profile, done) => {
+  let user = await User.findOne({ googleId: profile.id });
+  if (!user) {
+    user = await User.create({
+      googleId: profile.id,
+      name: profile.displayName,
+      email: profile.emails[0].value
+    });
+  }
+  done(null, user);
+}));
+
+app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+app.get('/auth/google/callback', passport.authenticate('google'), (req, res) => {
+  res.redirect('/dashboard');
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 53 by Naveen S</p>
+</body></html>

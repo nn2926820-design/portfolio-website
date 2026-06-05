@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html><head><title>Task 56 - Logging</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 56: Create Logging & Monitoring System</h1>
+<div class="code">
+<pre><span class="comment">// Winston Logger</span>
+const winston = require('winston');
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'combined.log' })
+  ]
+});
+
+<span class="comment">// Morgan HTTP Logger</span>
+const morgan = require('morgan');
+app.use(morgan('combined', { stream: { write: msg => logger.info(msg) } }));
+
+<span class="comment">// Error Logging</span>
+app.use((err, req, res, next) => {
+  logger.error({ message: err.message, stack: err.stack, url: req.url });
+  res.status(500).json({ error: 'Server Error' });
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 56 by Naveen S</p>
+</body></html>

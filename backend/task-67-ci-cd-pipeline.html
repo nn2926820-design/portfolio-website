@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html><head><title>Task 67 - CI/CD</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 67: Implement CI/CD Pipeline</h1>
+<div class="code">
+<pre><span class="comment">//.github/workflows/deploy.yml</span>
+name: Deploy API
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - name: Deploy to server
+        run: |
+          ssh user@server 'cd /app && git pull && npm ci && pm2 restart all'</pre>
+</div>
+<p style="color:#94a3b8">Task 67 by Naveen S</p>
+</body></html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html><head><title>Task 40 - MongoDB</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 40: Develop MongoDB Integration</h1>
+<div class="code">
+<pre><span class="comment">// models/User.js</span>
+const mongoose = require('mongoose');
+
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  role: { type: String, enum: ['user', 'admin'], default: 'user' }
+}, { timestamps: true });
+
+const User = mongoose.model('User', userSchema);
+
+<span class="comment">// CRUD</span>
+const createUser = (data) => User.create(data);
+const getUsers = () => User.find().select('-password');
+const updateUser = (id, data) => User.findByIdAndUpdate(id, data, { new: true });
+const deleteUser = (id) => User.findByIdAndDelete(id);
+
+module.exports = User;</pre>
+</div>
+<p style="color:#94a3b8">Task 40 by Naveen S</p>
+</body></html>

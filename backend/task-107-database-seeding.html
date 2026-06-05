@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html><head><title>Task 107 - Seeding</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 107: Database Seeding</h1>
+<div class="code">
+<pre><span class="comment">// seeders/20240101-demo-users.js</span>
+const bcrypt = require('bcryptjs');
+const { faker } = require('@faker-js/faker');
+
+module.exports = {
+  up: async (queryInterface) => {
+    const users = [];
+    for (let i = 0; i < 50; i++) {
+      users.push({
+        name: faker.person.fullName(),
+        email: faker.internet.email(),
+        password: await bcrypt.hash('password123', 10),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+    }
+    await queryInterface.bulkInsert('Users', users);
+  },
+  down: async (queryInterface) => {
+    await queryInterface.bulkDelete('Users', null, {});
+  }
+};
+
+<span class="comment">// Run: npx sequelize-cli db:seed:all</span></pre>
+</div>
+<p style="color:#94a3b8">Task 107 by Naveen S</p>
+</body></html>

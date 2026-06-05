@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html><head><title>Task 101 - GraphQL API</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px;border-left:4px solid #e535ab}h1{color:#e535ab}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 101: Implement GraphQL API</h1>
+<div class="code">
+<pre><span class="comment">// Apollo Server</span>
+const { ApolloServer, gql } = require('apollo-server-express');
+
+const typeDefs = gql`
+  type User {
+    id: ID!
+    name: String!
+    email: String!
+    posts: [Post]
+  }
+  type Post {
+    id: ID!
+    title: String!
+    content: String
+  }
+  type Query {
+    users: [User]
+    user(id: ID!): User
+  }
+  type Mutation {
+    createUser(name: String!, email: String!): User
+  }
+`;
+
+const resolvers = {
+  Query: {
+    users: async () => await User.findAll(),
+    user: async (_, { id }) => await User.findByPk(id)
+  },
+  Mutation: {
+    createUser: async (_, { name, email }) => await User.create({ name, email })
+  },
+  User: {
+    posts: async (user) => await Post.findAll({ where: { userId: user.id } })
+  }
+};
+
+const server = new ApolloServer({ typeDefs, resolvers });
+server.start().then(() => server.applyMiddleware({ app }));</pre>
+</div>
+<p style="color:#94a3b8">Task 101 by Naveen S</p>
+</body></html>

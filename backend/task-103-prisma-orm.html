@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html><head><title>Task 103 - Prisma</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 103: Setup Prisma ORM</h1>
+<div class="code">
+<pre><span class="comment">// schema.prisma</span>
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "mysql"
+  url = env("DATABASE_URL")
+}
+model User {
+  id Int @id @default(autoincrement())
+  email String @unique
+  name String?
+  posts Post[]
+}
+model Post {
+  id Int @id @default(autoincrement())
+  title String
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+}
+
+<span class="comment">// Usage</span>
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+
+app.get('/api/users', async (req, res) => {
+  const users = await prisma.user.findMany({
+    include: { posts: true }
+  });
+  res.json(users);
+});
+
+<span class="comment">// Run: npx prisma migrate dev</span></pre>
+</div>
+<p style="color:#94a3b8">Task 103 by Naveen S</p>
+</body></html>

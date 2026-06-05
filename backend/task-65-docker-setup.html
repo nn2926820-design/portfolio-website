@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html><head><title>Task 65 - Docker</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 65: Create Docker Setup</h1>
+<div class="code">
+<pre><span class="comment">// Dockerfile</span>
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json./
+RUN npm ci --only=production
+COPY..
+EXPOSE 5000
+CMD ["node", "server.js"]
+
+<span class="comment">//.dockerignore</span>
+node_modules
+.env
+.git
+*.log
+
+<span class="comment">// Build & Run</span>
+docker build -t myapp.
+docker run -p 5000:5000 --env-file.env myapp</pre>
+</div>
+<p style="color:#94a3b8">Task 65 by Naveen S</p>
+</body></html>

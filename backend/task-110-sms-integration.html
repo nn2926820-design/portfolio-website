@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html><head><title>Task 110 - SMS</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 110: SMS Integration with Twilio</h1>
+<div class="code">
+<pre><span class="comment">// Twilio SMS</span>
+const twilio = require('twilio');
+const client = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
+
+app.post('/api/send-sms', async (req, res) => {
+  const { to, message } = req.body;
+  await client.messages.create({
+    body: message,
+    from: process.env.TWILIO_PHONE,
+    to: to
+  });
+  res.json({ sent: true });
+});
+
+<span class="comment">// OTP Verification</span>
+app.post('/api/send-otp', async (req, res) => {
+  const otp = Math.floor(100000 + Math.random() * 900000);
+  await Redis.setex(`otp:${req.body.phone}`, 300, otp);
+  await client.messages.create({
+    body: `Your OTP is ${otp}`,
+    from: process.env.TWILIO_PHONE,
+    to: req.body.phone
+  });
+  res.json({ sent: true });
+});
+
+app.post('/api/verify-otp', async (req, res) => {
+  const stored = await Redis.get(`otp:${req.body.phone}`);
+  if (stored === req.body.otp) {
+    res.json({ verified: true });
+  } else {
+    res.status(400).json({ error: 'Invalid OTP' });
+  }
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 110 by Naveen S</p>
+</body></html>

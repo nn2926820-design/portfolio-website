@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html><head><title>Task 90 - RabbitMQ</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 90: RabbitMQ Integration</h1>
+<div class="code">
+<pre><span class="comment">// amqplib Producer</span>
+const amqp = require('amqplib');
+let channel;
+
+async function connect() {
+  const conn = await amqp.connect('amqp://localhost');
+  channel = await conn.createChannel();
+  await channel.assertQueue('email_queue', { durable: true });
+}
+
+app.post('/api/send-email', async (req, res) => {
+  channel.sendToQueue('email_queue', Buffer.from(JSON.stringify(req.body)), { persistent: true });
+  res.json({ queued: true });
+});
+
+<span class="comment">// Consumer</span>
+channel.consume('email_queue', async (msg) => {
+  const data = JSON.parse(msg.content.toString());
+  await sendEmail(data);
+  channel.ack(msg);
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 90 by Naveen S</p>
+</body></html>

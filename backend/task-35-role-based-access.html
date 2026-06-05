@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html><head><title>Task 35 - RBAC</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 35: Develop Role-Based Access Control</h1>
+<div class="code">
+<pre><span class="comment">// RBAC Middleware</span>
+const authorize = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+    next();
+  };
+};
+
+app.delete('/api/users/:id', auth, authorize('admin'), (req, res) => {
+  res.json({ message: 'User deleted by admin' });
+});
+
+app.get('/api/reports', auth, authorize('admin', 'manager'), (req, res) => {
+  res.json({ data: 'Reports' });
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 35 by Naveen S</p>
+</body></html>

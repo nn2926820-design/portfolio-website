@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html><head><title>Task 100 - EC2 Deploy</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 100: Deploy to AWS EC2</h1>
+<div class="code">
+<pre><span class="comment">// 1. EC2 Setup Script</span>
+#!/bin/bash
+sudo apt update
+sudo apt install nodejs npm nginx -y
+sudo npm install -g pm2
+
+<span class="comment">// 2. Clone & Run</span>
+git clone https://github.com/user/api.git
+cd api
+npm ci
+pm2 start server.js --name "api"
+
+<span class="comment">// 3. Nginx config</span>
+server {
+    listen 80;
+    server_name your-domain.com;
+    location / {
+        proxy_pass http://localhost:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
+<span class="comment">// 4. SSL with Certbot</span>
+sudo certbot --nginx -d your-domain.com
+
+<span class="comment">// 5. PM2 Startup</span>
+pm2 startup
+pm2 save</pre>
+</div>
+<p style="color:#94a3b8">Task 100 by Naveen S - COMPLETED 🎉</p>
+</body></html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html><head><title>Task 78 - Request Validation</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 78: Implement Request Validation</h1>
+<div class="code">
+<pre><span class="comment">// Joi validation</span>
+const Joi = require('joi');
+
+const userSchema = Joi.object({
+  name: Joi.string().min(3).required(),
+  email: Joi.string().email().required(),
+  age: Joi.number().min(18).max(100)
+});
+
+const validate = (schema) => (req, res, next) => {
+  const { error } = schema.validate(req.body);
+  if (error) return res.status(400).json({ error: error.details[0].message });
+  next();
+};
+
+app.post('/api/users', validate(userSchema), async (req, res) => {
+  const user = await User.create(req.body);
+  res.status(201).json(user);
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 78 by Naveen S</p>
+</body></html>

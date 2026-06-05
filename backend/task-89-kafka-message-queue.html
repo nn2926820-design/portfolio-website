@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html><head><title>Task 89 - Kafka</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 89: Implement Kafka Message Queue</h1>
+<div class="code">
+<pre><span class="comment">// KafkaJS Producer</span>
+const { Kafka } = require('kafkajs');
+const kafka = new Kafka({ brokers: ['localhost:9092'] });
+const producer = kafka.producer();
+
+app.post('/api/order', async (req, res) => {
+  await producer.connect();
+  await producer.send({
+    topic: 'orders',
+    messages: [{ value: JSON.stringify(req.body) }]
+  });
+  res.json({ queued: true });
+});
+
+<span class="comment">// Consumer</span>
+const consumer = kafka.consumer({ groupId: 'order-group' });
+await consumer.connect();
+await consumer.subscribe({ topic: 'orders' });
+await consumer.run({
+  eachMessage: async ({ message }) => {
+    const order = JSON.parse(message.value);
+    await processOrder(order);
+  }
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 89 by Naveen S</p>
+</body></html>

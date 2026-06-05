@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html><head><title>Task 41 - Rate Limiting</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px;border-left:4px solid #38bdf8}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 41: Implement API Rate Limiting</h1>
+<div class="code">
+<pre><span class="comment">// server.js - Express Rate Limit</span>
+const rateLimit = require('express-rate-limit');
+
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // 100 requests per IP
+  message: { error: 'Too many requests, try again later' },
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+app.use('/api/', apiLimiter);
+
+<span class="comment">// Stricter limit for login</span>
+const loginLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 5, // 5 attempts
+  skipSuccessfulRequests: true
+});
+app.post('/api/login', loginLimiter, loginHandler);</pre>
+</div>
+<p style="color:#94a3b8">Task 41 by Naveen S</p>
+</body></html>

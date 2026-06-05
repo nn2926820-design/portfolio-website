@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html><head><title>Task 87 - Sharding</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 87: Implement Database Sharding</h1>
+<div class="code">
+<pre><span class="comment">// Shard by userId % 3</span>
+const shards = [
+  mysql.createPool({ host: 'shard1.db' }),
+  mysql.createPool({ host: 'shard2.db' }),
+  mysql.createPool({ host: 'shard3.db' })
+];
+
+function getShard(userId) {
+  return shards[userId % shards.length];
+}
+
+<span class="comment">// Insert to shard</span>
+app.post('/api/users', async (req, res) => {
+  const userId = generateId();
+  const shard = getShard(userId);
+  await shard.execute('INSERT INTO Users SET?', { id: userId,...req.body });
+  res.json({ userId });
+});
+
+<span class="comment">// Read from shard</span>
+app.get('/api/users/:id', async (req, res) => {
+  const shard = getShard(req.params.id);
+  const [rows] = await shard.execute('SELECT * FROM Users WHERE id =?', [req.params.id]);
+  res.json(rows[0]);
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 87 by Naveen S</p>
+</body></html>

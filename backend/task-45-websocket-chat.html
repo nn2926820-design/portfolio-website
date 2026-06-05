@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html><head><title>Task 45 - WebSocket</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 45: Create WebSocket Chat Server</h1>
+<div class="code">
+<pre><span class="comment">// Socket.io Server</span>
+const { Server } = require('socket.io');
+const io = new Server(server, { cors: { origin: '*' } });
+
+io.on('connection', (socket) => {
+  console.log('User connected:', socket.id);
+
+  <span class="comment">// Join room</span>
+  socket.on('join-room', (roomId) => {
+    socket.join(roomId);
+    socket.to(roomId).emit('user-joined', socket.id);
+  });
+
+  <span class="comment">// Send message</span>
+  socket.on('send-message', ({ roomId, message, user }) => {
+    io.to(roomId).emit('receive-message', { 
+      message, user, time: new Date() 
+    });
+  });
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+  });
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 45 by Naveen S</p>
+</body></html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html><head><title>Task 46 - Redis</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 46: Implement Redis Caching</h1>
+<div class="code">
+<pre><span class="comment">// Redis Client</span>
+const redis = require('redis');
+const client = redis.createClient({ url: process.env.REDIS_URL });
+client.connect();
+
+<span class="comment">// Cache Middleware</span>
+const cache = async (req, res, next) => {
+  const key = `users:${req.params.id}`;
+  const cached = await client.get(key);
+  if (cached) {
+    return res.json(JSON.parse(cached));
+  }
+  next();
+};
+
+<span class="comment">// Use Cache</span>
+app.get('/api/users/:id', cache, async (req, res) => {
+  const user = await User.findById(req.params.id);
+  await client.setEx(`users:${req.params.id}`, 3600, JSON.stringify(user)); // 1hr
+  res.json(user);
+});
+
+<span class="comment">// Clear cache on update</span>
+app.put('/api/users/:id', async (req, res) => {
+  const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  await client.del(`users:${req.params.id}`);
+  res.json(user);
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 46 by Naveen S</p>
+</body></html>

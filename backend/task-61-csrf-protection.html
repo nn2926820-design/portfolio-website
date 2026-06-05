@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html><head><title>Task 61 - CSRF</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px;border-left:4px solid #38bdf8}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 61: Implement CSRF Protection</h1>
+<div class="code">
+<pre><span class="comment">// csurf middleware</span>
+const csrf = require('csurf');
+const cookieParser = require('cookie-parser');
+
+app.use(cookieParser());
+app.use(csrf({ cookie: true }));
+
+<span class="comment">// Send token to client</span>
+app.get('/api/csrf-token', (req, res) => {
+  res.json({ csrfToken: req.csrfToken() });
+});
+
+<span class="comment">// Protected route</span>
+app.post('/api/data', (req, res) => {
+  res.json({ message: 'CSRF validated' });
+});
+
+<span class="comment">// Frontend: Add header</span>
+fetch('/api/data', {
+  method: 'POST',
+  headers: { 'CSRF-Token': csrfToken }
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 61 by Naveen S</p>
+</body></html>

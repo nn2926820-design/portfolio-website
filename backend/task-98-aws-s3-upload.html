@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html><head><title>Task 98 - S3 Upload</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 98: AWS S3 File Upload</h1>
+<div class="code">
+<pre><span class="comment">// AWS SDK v3</span>
+const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+const s3 = new S3Client({ region: 'us-east-1' });
+
+app.post('/api/upload-s3', upload.single('file'), async (req, res) => {
+  const key = `uploads/${Date.now()}-${req.file.originalname}`;
+
+  await s3.send(new PutObjectCommand({
+    Bucket: process.env.S3_BUCKET,
+    Key: key,
+    Body: req.file.buffer,
+    ContentType: req.file.mimetype,
+    ACL: 'public-read'
+  }));
+
+  const url = `https://${process.env.S3_BUCKET}.s3.amazonaws.com/${key}`;
+  res.json({ url });
+});
+
+<span class="comment">// Presigned URL</span>
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
+app.get('/api/presigned-url', async (req, res) => {
+  const command = new PutObjectCommand({
+    Bucket: process.env.S3_BUCKET,
+    Key: `uploads/${Date.now()}`
+  });
+  const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+  res.json({ url });
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 98 by Naveen S</p>
+</body></html>

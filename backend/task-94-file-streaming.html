@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html><head><title>Task 94 - File Stream</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 94: Implement File Streaming</h1>
+<div class="code">
+<pre><span class="comment">// Stream large file</span>
+const fs = require('fs');
+
+app.get('/api/download/:file', (req, res) => {
+  const path = `./uploads/${req.params.file}`;
+  const stat = fs.statSync(path);
+
+  res.writeHead(200, {
+    'Content-Type': 'application/octet-stream',
+    'Content-Length': stat.size,
+    'Content-Disposition': `attachment; filename=${req.params.file}`
+  });
+
+  const stream = fs.createReadStream(path);
+  stream.pipe(res);
+});
+
+<span class="comment">// Upload stream</span>
+app.post('/api/upload', (req, res) => {
+  const stream = fs.createWriteStream(`./uploads/${Date.now()}`);
+  req.pipe(stream);
+  stream.on('finish', () => res.json({ success: true }));
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 94 by Naveen S</p>
+</body></html>

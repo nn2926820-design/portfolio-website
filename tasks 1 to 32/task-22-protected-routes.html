@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html><head><title>Task 22 - State Management</title>
+<style>body{background:#0f172a;color:white;font-family:Arial;padding:40px;text-align:center}.box{background:#1e293b;padding:30px;border-radius:10px;max-width:400px;margin:0 auto}button{background:#38bdf8;color:#0f172a;padding:12px 24px;border:none;border-radius:6px;font-weight:bold;margin:5px;cursor:pointer}h2{color:#38bdf8;font-size:2rem}</style>
+</head><body>
+<div class="box">
+<h1>State Management</h1>
+<h2 id="count">0</h2>
+<button onclick="inc()">Increment</button>
+<button onclick="dec()">Decrement</button>
+<button onclick="reset()">Reset</button>
+<p style="color:#94a3b8;margin-top:20px">Task 22 by Naveen S</p>
+</div>
+<script>
+let state = 0;
+function update(){document.getElementById('count').textContent = state}
+function inc(){state++;update()}
+function dec(){state--;update()}
+function reset(){state=0;update()}
+</script></body></html>

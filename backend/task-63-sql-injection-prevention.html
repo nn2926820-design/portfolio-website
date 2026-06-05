@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html><head><title>Task 63 - SQL Injection</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 63: Prevent SQL Injection</h1>
+<div class="code">
+<pre><span class="comment">// Sequelize - Parameterized queries</span>
+const { Op } = require('sequelize');
+
+// ❌ Bad - Vulnerable
+const users = await sequelize.query(`SELECT * FROM Users WHERE email = '${email}'`);
+
+// ✅ Good - Safe
+const users = await User.findAll({
+  where: { email: email }
+});
+
+<span class="comment">// Raw query with binding</span>
+const users = await sequelize.query(
+  'SELECT * FROM Users WHERE email = :email',
+  { replacements: { email: req.body.email }, type: QueryTypes.SELECT }
+);
+
+<span class="comment">// MySQL2 prepared statements</span>
+const [rows] = await connection.execute(
+  'SELECT * FROM users WHERE id =?',
+  [userId]
+);</pre>
+</div>
+<p style="color:#94a3b8">Task 63 by Naveen S</p>
+</body></html>

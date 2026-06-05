@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html><head><title>Task 42 - File Upload</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 42: Create File Upload API</h1>
+<div class="code">
+<pre><span class="comment">// Multer + Express</span>
+const multer = require('multer');
+const path = require('path');
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, 'uploads/'),
+  filename: (req, file, cb) => {
+    const unique = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, unique + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ 
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+  fileFilter: (req, file, cb) => {
+    const allowed = /jpeg|jpg|png|pdf/;
+    const ext = allowed.test(path.extname(file.originalname).toLowerCase());
+    cb(null, ext);
+  }
+});
+
+app.post('/api/upload', auth, upload.single('file'), (req, res) => {
+  res.json({ 
+    message: 'File uploaded',
+    filename: req.file.filename,
+    url: `/uploads/${req.file.filename}`
+  });
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 42 by Naveen S</p>
+</body></html>

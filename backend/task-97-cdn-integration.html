@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html><head><title>Task 97 - CDN</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 97: CDN Integration</h1>
+<div class="code">
+<pre><span class="comment">// CloudFront + S3 URLs</span>
+const CDN_URL = process.env.CDN_URL || 'https://d123.cloudfront.net';
+
+app.get('/api/assets/:file', (req, res) => {
+  const cdnUrl = `${CDN_URL}/${req.params.file}`;
+  res.redirect(cdnUrl);
+});
+
+<span class="comment">// Cache-Control headers</span>
+app.use('/static', express.static('public', {
+  maxAge: '30d',
+  setHeaders: (res, path) => {
+    res.setHeader('Cache-Control', 'public, max-age=2592000');
+  }
+}));
+
+<span class="comment">// Purge CDN cache</span>
+const AWS = require('aws-sdk');
+const cloudfront = new AWS.CloudFront();
+app.post('/api/purge-cdn', async (req, res) => {
+  await cloudfront.createInvalidation({
+    DistributionId: process.env.CF_DIST_ID,
+    InvalidationBatch: {
+      Paths: { Quantity: 1, Items: ['/*'] },
+      CallerReference: Date.now().toString()
+    }
+  }).promise();
+  res.json({ purged: true });
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 97 by Naveen S</p>
+</body></html>

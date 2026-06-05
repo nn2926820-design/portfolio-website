@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html><head><title>Task 80 - Security Headers</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 80: Implement API Security Headers</h1>
+<div class="code">
+<pre><span class="comment">// Helmet for security headers</span>
+const helmet = require('helmet');
+app.use(helmet());
+
+<span class="comment">// Manual headers</span>
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000');
+  res.setHeader('Referrer-Policy', 'no-referrer');
+  next();
+});
+
+<span class="comment">// Helmet config</span>
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"]
+    }
+  }
+}));</pre>
+</div>
+<p style="color:#94a3b8">Task 80 by Naveen S</p>
+</body></html>

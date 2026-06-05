@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html><head><title>Task 99 - Firebase Auth</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 99: Firebase Authentication</h1>
+<div class="code">
+<pre><span class="comment">// Firebase Admin SDK</span>
+const admin = require('firebase-admin');
+admin.initializeApp({
+  credential: admin.credential.cert(require('./serviceAccount.json'))
+});
+
+<span class="comment">// Verify Firebase token</span>
+const verifyFirebase = async (req, res, next) => {
+  const token = req.headers.authorization?.split('Bearer ')[1];
+  try {
+    const decoded = await admin.auth().verifyIdToken(token);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    res.status(401).json({ error: 'Invalid token' });
+  }
+};
+
+app.get('/api/profile', verifyFirebase, (req, res) => {
+  res.json({ uid: req.user.uid, email: req.user.email });
+});
+
+<span class="comment">// Create user</span>
+app.post('/api/signup', async (req, res) => {
+  const user = await admin.auth().createUser({
+    email: req.body.email,
+    password: req.body.password
+  });
+  res.json({ uid: user.uid });
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 99 by Naveen S</p>
+</body></html>

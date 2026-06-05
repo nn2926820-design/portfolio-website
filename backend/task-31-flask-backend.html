@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html><head><title>Task 31 - Flask Backend</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px;border-left:4px solid #38bdf8}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 31: Develop Flask backend</h1>
+<div class="code">
+<pre><span class="comment"># app.py - Flask API</span>
+from flask import Flask, jsonify, request
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
+
+@app.route('/')
+def home():
+    return jsonify({'message': 'Flask Server Running'})
+
+@app.route('/api/users', methods=['GET', 'POST'])
+def users():
+    if request.method == 'GET':
+        return jsonify({'users': [{'id': 1, 'name': 'Naveen S'}]})
+    data = request.get_json()
+    return jsonify({'message': 'User created', 'user': data}), 201
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5000)</pre>
+</div>
+<p style="color:#94a3b8">Task 31 by Naveen S</p>
+</body></html>

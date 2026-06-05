@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html><head><title>Task 69 - Integration Test</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 69: Create Integration Tests</h1>
+<div class="code">
+<pre><span class="comment">// app.test.js - Supertest + Jest</span>
+const request = require('supertest');
+const app = require('../app');
+
+describe('User API', () => {
+  test('GET /api/users', async () => {
+    const res = await request(app).get('/api/users');
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+  });
+
+  test('POST /api/users', async () => {
+    const res = await request(app)
+     .post('/api/users')
+     .send({ name: 'Test', email: 'test@mail.com' });
+    expect(res.status).toBe(201);
+    expect(res.body).toHaveProperty('id');
+  });
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 69 by Naveen S</p>
+</body></html>

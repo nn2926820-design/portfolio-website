@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html><head><title>Task 49 - Swagger</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 49: Implement API Documentation with Swagger</h1>
+<div class="code">
+<pre><span class="comment">// swagger.js</span>
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: { title: 'My API', version: '1.0.0' },
+    servers: [{ url: 'http://localhost:5000' }]
+  },
+  apis: ['./routes/*.js']
+};
+
+const specs = swaggerJsdoc(options);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+
+<span class="comment">// routes/users.js</span>
+/**
+ * @swagger
+ * /api/users:
+ *   get:
+ *     summary: Get all users
+ *     responses:
+ *       200:
+ *         description: List of users
+ */
+router.get('/users', getUsers);</pre>
+</div>
+<p style="color:#94a3b8">Task 49 by Naveen S</p>
+</body></html>

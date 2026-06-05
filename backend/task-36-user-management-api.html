@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html><head><title>Task 36 - User API</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 36: Create User Management API</h1>
+<div class="code">
+<pre><span class="comment">// User CRUD API</span>
+const bcrypt = require('bcrypt');
+
+// GET all
+router.get('/users', auth, async (req, res) => {
+  const users = await User.find().select('-password');
+  res.json({ success: true, users });
+});
+
+// POST register
+router.post('/users/register', async (req, res) => {
+  const hashed = await bcrypt.hash(req.body.password, 10);
+  const user = new User({ ...req.body, password: hashed });
+  await user.save();
+  res.status(201).json({ message: 'Registered' });
+});
+
+// PUT update
+router.put('/users/:id', auth, async (req, res) => {
+  const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.json(user);
+});
+
+// DELETE
+router.delete('/users/:id', auth, authorize('admin'), async (req, res) => {
+  await User.findByIdAndDelete(req.params.id);
+  res.json({ message: 'Deleted' });
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 36 by Naveen S</p>
+</body></html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html><head><title>Task 51 - Webhook</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px;border-left:4px solid #38bdf8}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 51: Implement Webhook Integration</h1>
+<div class="code">
+<pre><span class="comment">// Stripe Webhook Handler</span>
+const express = require('express');
+const app = express();
+
+app.post('/webhook/stripe', express.raw({type: 'application/json'}), (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  const event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+
+  if (event.type === 'payment_intent.succeeded') {
+    const payment = event.data.object;
+    console.log('Payment Success:', payment.id);
+    // Update order status in DB
+    Order.updateOne({ paymentId: payment.id }, { status: 'paid' });
+  }
+
+  res.json({ received: true });
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 51 by Naveen S</p>
+</body></html>

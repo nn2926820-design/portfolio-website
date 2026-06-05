@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html><head><title>Task 39 - MySQL</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 39: Create MySQL Database Schema</h1>
+<div class="code">
+<pre><span class="comment">-- Database Schema</span>
+CREATE DATABASE myapp;
+USE myapp;
+
+CREATE TABLE users (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(100) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  role ENUM('user', 'admin') DEFAULT 'user',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE products (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(200) NOT NULL,
+  price DECIMAL(10,2) NOT NULL,
+  stock INT DEFAULT 0,
+  user_id INT,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);</pre>
+</div>
+<p style="color:#94a3b8">Task 39 by Naveen S</p>
+</body></html>

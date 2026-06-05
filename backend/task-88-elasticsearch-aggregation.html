@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html><head><title>Task 88 - ES Aggregation</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 88: Elasticsearch Aggregation</h1>
+<div class="code">
+<pre><span class="comment">// Sales aggregation</span>
+app.get('/api/stats/sales', async (req, res) => {
+  const result = await client.search({
+    index: 'orders',
+    size: 0,
+    aggs: {
+      sales_per_month: {
+        date_histogram: {
+          field: 'createdAt',
+          calendar_interval: 'month'
+        },
+        aggs: {
+          total_sales: { sum: { field: 'amount' } },
+          avg_order: { avg: { field: 'amount' } }
+        }
+      },
+      top_products: {
+        terms: { field: 'productId', size: 5 }
+      }
+    }
+  });
+  res.json(result.aggregations);
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 88 by Naveen S</p>
+</body></html>

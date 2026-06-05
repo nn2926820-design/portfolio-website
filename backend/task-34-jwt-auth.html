@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html><head><title>Task 34 - JWT</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 34: Implement JWT Authentication</h1>
+<div class="code">
+<pre><span class="comment">// JWT Login & Middleware</span>
+const jwt = require('jsonwebtoken');
+
+app.post('/api/login', (req, res) => {
+  const token = jwt.sign(
+    { userId: 1, email: req.body.email, role: 'user' }, 
+    process.env.JWT_SECRET,
+    { expiresIn: '7d' }
+  );
+  res.json({ success: true, token });
+});
+
+const auth = (req, res, next) => {
+  const token = req.header('Authorization')?.replace('Bearer ', '');
+  if (!token) return res.status(401).json({ error: 'No token' });
+  try {
+    req.user = jwt.verify(token, process.env.JWT_SECRET);
+    next();
+  } catch (err) {
+    res.status(401).json({ error: 'Invalid token' });
+  }
+};
+
+app.get('/api/profile', auth, (req, res) => {
+  res.json({ user: req.user });
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 34 by Naveen S</p>
+</body></html>

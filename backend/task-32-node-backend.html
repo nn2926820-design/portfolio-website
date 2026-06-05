@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html><head><title>Task 32 - Node.js</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 32: Develop Node.js Express backend</h1>
+<div class="code">
+<pre><span class="comment">// server.js</span>
+const express = require('express');
+const cors = require('cors');
+const app = express();
+const PORT = 5000;
+
+app.use(cors());
+app.use(express.json());
+
+app.get('/', (req, res) => {
+  res.json({ message: 'Node Server Running' });
+});
+
+app.get('/api/users', (req, res) => {
+  res.json({ success: true, data: [] });
+});
+
+app.post('/api/users', (req, res) => {
+  res.status(201).json({ message: 'User created', user: req.body });
+});
+
+app.listen(PORT, () => console.log(`Server on ${PORT}`));</pre>
+</div>
+<p style="color:#94a3b8">Task 32 by Naveen S</p>
+</body></html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html><head><title>Task 108 - Cron Jobs</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 108: Implement Cron Jobs</h1>
+<div class="code">
+<pre><span class="comment">// node-cron</span>
+const cron = require('node-cron');
+
+<span class="comment">// Every day at 2 AM</span>
+cron.schedule('0 2 * * *', async () => {
+  console.log('Running daily cleanup');
+  await Order.deleteMany({ status: 'pending', createdAt: { $lt: new Date(Date.now() - 24*60*60*1000) } });
+});
+
+<span class="comment">// Every 5 minutes</span>
+cron.schedule('*/5 * * * *', async () => {
+  const stats = await generateStats();
+  await Redis.set('stats', JSON.stringify(stats));
+});
+
+<span class="comment">// Every Monday 9 AM</span>
+cron.schedule('0 9 * * 1', async () => {
+  const users = await User.find({ subscribed: true });
+  for (const user of users) {
+    await sendNewsletter(user.email);
+  }
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 108 by Naveen S</p>
+</body></html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html><head><title>Task 43 - Email Service</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 43: Develop Email Service API</h1>
+<div class="code">
+<pre><span class="comment">// Nodemailer Setup</span>
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
+<span class="comment">// Send Email API</span>
+app.post('/api/send-email', auth, async (req, res) => {
+  const { to, subject, html } = req.body;
+  try {
+    await transporter.sendMail({
+      from: `"MyApp" <${process.env.EMAIL_USER}>`,
+      to, subject, html
+    });
+    res.json({ success: true, message: 'Email sent' });
+  } catch (err) {
+    res.status(500).json({ error: 'Email failed' });
+  }
+});
+
+<span class="comment">// Welcome Email</span>
+app.post('/api/welcome', async (req, res) => {
+  await transporter.sendMail({
+    to: req.body.email,
+    subject: 'Welcome to MyApp',
+    html: '<h1>Welcome!</h1><p>Thanks for joining</p>'
+  });
+  res.json({ sent: true });
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 43 by Naveen S</p>
+</body></html>

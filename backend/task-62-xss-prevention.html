@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html><head><title>Task 62 - XSS</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 62: Implement XSS Prevention</h1>
+<div class="code">
+<pre><span class="comment">// Helmet + Sanitization</span>
+const helmet = require('helmet');
+const xss = require('xss-clean');
+
+app.use(helmet());
+app.use(xss());
+
+<span class="comment">// Manual sanitization</span>
+const sanitizeHtml = require('sanitize-html');
+app.post('/api/comment', (req, res) => {
+  const clean = sanitizeHtml(req.body.comment, {
+    allowedTags: ['b', 'i', 'em'],
+    allowedAttributes: {}
+  });
+  Comment.create({ text: clean });
+  res.json({ success: true });
+});
+
+<span class="comment">// Content-Security-Policy</span>
+app.use(helmet.contentSecurityPolicy({
+  directives: { defaultSrc: ["'self'"] }
+}));</pre>
+</div>
+<p style="color:#94a3b8">Task 62 by Naveen S</p>
+</body></html>

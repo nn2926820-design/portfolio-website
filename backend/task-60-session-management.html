@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html><head><title>Task 60 - Sessions</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 60: Create Session Management</h1>
+<div class="code">
+<pre><span class="comment">// Express Session + Redis Store</span>
+const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
+const redis = require('redis');
+const redisClient = redis.createClient();
+
+app.use(session({
+  store: new RedisStore({ client: redisClient }),
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: false, // true in production with HTTPS
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 // 1 day
+  }
+}));
+
+<span class="comment">// Login - Set session</span>
+app.post('/api/login', async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+  req.session.userId = user._id;
+  res.json({ message: 'Logged in' });
+});
+
+<span class="comment">// Logout - Destroy</span>
+app.post('/api/logout', (req, res) => {
+  req.session.destroy();
+  res.json({ message: 'Logged out' });
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 60 by Naveen S</p>
+</body></html>

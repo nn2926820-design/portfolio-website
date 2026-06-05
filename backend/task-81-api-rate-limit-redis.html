@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html><head><title>Task 81 - Rate Limit Redis</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px;border-left:4px solid #38bdf8}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 81: API Rate Limit with Redis</h1>
+<div class="code">
+<pre><span class="comment">// rate-limit-redis</span>
+const rateLimit = require('express-rate-limit');
+const RedisStore = require('rate-limit-redis');
+const redis = require('redis');
+
+const client = redis.createClient();
+
+const limiter = rateLimit({
+  store: new RedisStore({
+    sendCommand: (...args) => client.sendCommand(args),
+  }),
+  windowMs: 15 * 60 * 1000, // 15 mins
+  max: 100,
+  message: 'Too many requests from this IP'
+});
+
+app.use('/api/', limiter);</pre>
+</div>
+<p style="color:#94a3b8">Task 81 by Naveen S</p>
+</body></html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html><head><title>Task 83 - API Gateway</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 83: Setup API Gateway</h1>
+<div class="code">
+<pre><span class="comment">// Express Gateway with http-proxy-middleware</span>
+const { createProxyMiddleware } = require('http-proxy-middleware');
+const express = require('express');
+const app = express();
+
+<span class="comment">// Auth service</span>
+app.use('/auth', createProxyMiddleware({
+  target: 'http://localhost:3001',
+  changeOrigin: true
+}));
+
+<span class="comment">// User service</span>
+app.use('/users', createProxyMiddleware({
+  target: 'http://localhost:3002',
+  changeOrigin: true,
+  pathRewrite: { '^/users': '/api/users' }
+}));
+
+<span class="comment">// Rate limit on gateway</span>
+app.use('/api', createProxyMiddleware({
+  target: 'http://localhost:3003',
+  onProxyReq: (proxyReq, req) => {
+    proxyReq.setHeader('X-User-Id', req.user?.id);
+  }
+}));
+
+app.listen(5000);</pre>
+</div>
+<p style="color:#94a3b8">Task 83 by Naveen S</p>
+</body></html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html><head><title>Task 23 - API Integration</title>
+<style>body{background:#0f172a;color:white;font-family:Arial;padding:30px}.card{background:#1e293b;padding:20px;border-radius:10px;margin:10px 0;border-left:4px solid #38bdf8}button{background:#38bdf8;color:#0f172a;padding:12px 24px;border:none;border-radius:6px;font-weight:bold;cursor:pointer}</style>
+</head><body>
+<h1 style="color:#38bdf8">API Integration in Frontend</h1>
+<button onclick="fetchData()">Fetch Users from API</button>
+<div id="output"></div>
+<p style="color:#94a3b8">Task 23 by Naveen S</p>
+<script>
+async function fetchData(){
+  const res = await fetch('https://jsonplaceholder.typicode.com/users');
+  const data = await res.json();
+  document.getElementById('output').innerHTML = data.slice(0,3).map(u => `<div class="card"><h3>${u.name}</h3><p>${u.email}</p></div>`).join('');
+}
+</script></body></html>

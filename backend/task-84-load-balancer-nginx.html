@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html><head><title>Task 84 - Nginx LB</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 84: Load Balancer with Nginx</h1>
+<div class="code">
+<pre><span class="comment">// nginx.conf</span>
+upstream backend {
+    least_conn; # or round-robin, ip_hash
+    server 127.0.0.1:5001 weight=3;
+    server 127.0.0.1:5002 weight=2;
+    server 127.0.0.1:5003;
+}
+
+server {
+    listen 80;
+    server_name api.myapp.com;
+
+    location / {
+        proxy_pass http://backend;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /health {
+        access_log off;
+        return 200 'healthy';
+    }
+}
+
+<span class="comment">// Run: sudo nginx -t && sudo nginx -s reload</span></pre>
+</div>
+<p style="color:#94a3b8">Task 84 by Naveen S</p>
+</body></html>

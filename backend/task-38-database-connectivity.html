@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html><head><title>Task 38 - DB Connect</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 38: Implement Database Connectivity</h1>
+<div class="code">
+<pre><span class="comment">// MongoDB</span>
+const mongoose = require('mongoose');
+const connectDB = async () => {
+  await mongoose.connect(process.env.MONGO_URI);
+  console.log('MongoDB Connected');
+};
+
+<span class="comment">// MySQL</span>
+const mysql = require('mysql2/promise');
+const pool = mysql.createPool({
+  host: 'localhost',
+  user: 'root',
+  password: process.env.DB_PASSWORD,
+  database: 'myapp'
+});
+
+<span class="comment">// PostgreSQL</span>
+const { Pool } = require('pg');
+const pgPool = new Pool({ connectionString: process.env.DATABASE_URL });</pre>
+</div>
+<p style="color:#94a3b8">Task 38 by Naveen S</p>
+</body></html>

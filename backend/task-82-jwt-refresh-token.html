@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html><head><title>Task 82 - Refresh Token</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 82: Implement JWT Refresh Token</h1>
+<div class="code">
+<pre><span class="comment">// Login - Generate tokens</span>
+app.post('/api/login', async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+  const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '15m' });
+  const refreshToken = jwt.sign({ id: user._id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '7d' });
+
+  await Token.create({ userId: user._id, token: refreshToken });
+  res.json({ accessToken, refreshToken });
+});
+
+<span class="comment">// Refresh endpoint</span>
+app.post('/api/refresh', async (req, res) => {
+  const { token } = req.body;
+  if (!token) return res.sendStatus(401);
+
+  const stored = await Token.findOne({ token });
+  if (!stored) return res.sendStatus(403);
+
+  jwt.verify(token, process.env.JWT_REFRESH_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '15m' });
+    res.json({ accessToken });
+  });
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 82 by Naveen S</p>
+</body></html>

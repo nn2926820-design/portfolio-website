@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html><head><title>Task 106 - Migration</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 106: Database Migration System</h1>
+<div class="code">
+<pre><span class="comment">// Sequelize Migration</span>
+<span class="comment">// migrations/20240101-create-users.js</span>
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable('Users', {
+      id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+      name: { type: Sequelize.STRING, allowNull: false },
+      email: { type: Sequelize.STRING, unique: true },
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE
+    });
+    await queryInterface.addIndex('Users', ['email']);
+  },
+  down: async (queryInterface) => {
+    await queryInterface.dropTable('Users');
+  }
+};
+
+<span class="comment">// Run: npx sequelize-cli db:migrate</span>
+<span class="comment">// Rollback: npx sequelize-cli db:migrate:undo</span></pre>
+</div>
+<p style="color:#94a3b8">Task 106 by Naveen S</p>
+</body></html>

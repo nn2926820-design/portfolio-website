@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html><head><title>Task 71 - Load Test</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 71: Implement Load Testing</h1>
+<div class="code">
+<pre><span class="comment">// k6 script.js</span>
+import http from 'k6/http';
+import { check } from 'k6';
+
+export let options = {
+  stages: [
+    { duration: '30s', target: 50 },
+    { duration: '1m', target: 100 },
+    { duration: '30s', target: 0 },
+  ],
+};
+
+export default function () {
+  let res = http.get('http://localhost:5000/api/users');
+  check(res, { 'status 200': (r) => r.status === 200 });
+}
+
+<span class="comment">// Run: k6 run script.js</span></pre>
+</div>
+<p style="color:#94a3b8">Task 71 by Naveen S</p>
+</body></html>

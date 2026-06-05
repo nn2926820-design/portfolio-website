@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html><head><title>Task 95 - Video Stream</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 95: Video Streaming API</h1>
+<div class="code">
+<pre><span class="comment">// Range request streaming</span>
+app.get('/api/video/:id', (req, res) => {
+  const path = `./videos/${req.params.id}.mp4`;
+  const stat = fs.statSync(path);
+  const fileSize = stat.size;
+  const range = req.headers.range;
+
+  if (range) {
+    const parts = range.replace(/bytes=/, "").split("-");
+    const start = parseInt(parts[0], 10);
+    const end = parts[1]? parseInt(parts[1], 10) : fileSize-1;
+    const chunksize = (end-start)+1;
+    const file = fs.createReadStream(path, {start, end});
+    const head = {
+      'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+      'Accept-Ranges': 'bytes',
+      'Content-Length': chunksize,
+      'Content-Type': 'video/mp4',
+    };
+    res.writeHead(206, head);
+    file.pipe(res);
+  } else {
+    res.writeHead(200, { 'Content-Length': fileSize, 'Content-Type': 'video/mp4' });
+    fs.createReadStream(path).pipe(res);
+  }
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 95 by Naveen S</p>
+</body></html>

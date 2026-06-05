@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html><head><title>Task 52 - Job Queue</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 52: Create Background Job Queue</h1>
+<div class="code">
+<pre><span class="comment">// Bull + Redis Queue</span>
+const Queue = require('bull');
+const emailQueue = new Queue('email', { redis: { host: '127.0.0.1', port: 6379 } });
+
+<span class="comment">// Add job to queue</span>
+app.post('/api/send-bulk-email', async (req, res) => {
+  const { users } = req.body;
+  await emailQueue.add('send', { users }, {
+    attempts: 3,
+    backoff: 5000
+  });
+  res.json({ message: 'Jobs queued' });
+});
+
+<span class="comment">// Process jobs</span>
+emailQueue.process('send', async (job) => {
+  const { users } = job.data;
+  for (const user of users) {
+    await transporter.sendMail({ to: user.email, subject: 'Bulk Mail' });
+  }
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 52 by Naveen S</p>
+</body></html>

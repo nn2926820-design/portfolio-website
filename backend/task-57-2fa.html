@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html><head><title>Task 57 - 2FA</title>
+<style>body{background:#0f172a;color:#f8fafc;font-family:monospace;padding:40px}.code{background:#1e293b;padding:25px;border-radius:10px}h1{color:#38bdf8}pre{color:#10b981}.comment{color:#64748b}</style>
+</head><body>
+<h1>Task 57: Develop Two-Factor Authentication</h1>
+<div class="code">
+<pre><span class="comment">// Speakeasy TOTP</span>
+const speakeasy = require('speakeasy');
+const qrcode = require('qrcode');
+
+<span class="comment">// Generate 2FA Secret</span>
+app.post('/api/2fa/setup', auth, async (req, res) => {
+  const secret = speakeasy.generateSecret({ name: 'MyApp' });
+  await User.updateOne({ _id: req.user.id }, { twoFactorSecret: secret.base32 });
+  const qr = await qrcode.toDataURL(secret.otpauth_url);
+  res.json({ secret: secret.base32, qr });
+});
+
+<span class="comment">// Verify Token</span>
+app.post('/api/2fa/verify', auth, async (req, res) => {
+  const { token } = req.body;
+  const user = await User.findById(req.user.id);
+  const verified = speakeasy.totp.verify({
+    secret: user.twoFactorSecret,
+    encoding: 'base32',
+    token
+  });
+  res.json({ verified });
+});</pre>
+</div>
+<p style="color:#94a3b8">Task 57 by Naveen S</p>
+</body></html>
